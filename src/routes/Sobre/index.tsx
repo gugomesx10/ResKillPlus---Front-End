@@ -1,4 +1,5 @@
 import Card from '../../components/Card/Card';
+import infoIcon from '../../assets/info_icon.svg';
 
 const Sobre = () => {
   return (
@@ -13,9 +14,12 @@ const Sobre = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           <Card>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Nossa Missão
-            </h2>
+            <div className="flex items-center gap-3 mb-4">
+              <img src={infoIcon} alt="Missão" className="w-10 h-10" />
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Nossa Missão
+              </h2>
+            </div>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
               O ResKillPlus é uma plataforma inovadora de requalificação profissional, desenvolvida para 
               enfrentar os desafios do mercado de trabalho em constante transformação.
@@ -26,9 +30,12 @@ const Sobre = () => {
           </Card>
 
           <Card>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Nossa Visão
-            </h2>
+            <div className="flex items-center gap-3 mb-4">
+              <img src={infoIcon} alt="Visão" className="w-10 h-10" />
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Nossa Visão
+              </h2>
+            </div>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
               Ser a principal referência em requalificação profissional no Brasil, conectando pessoas 
               a oportunidades de crescimento e desenvolvimento.

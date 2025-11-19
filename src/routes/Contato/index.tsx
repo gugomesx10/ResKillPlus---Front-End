@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Card from '../../components/Card/Card';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+import chatsIcon from '../../assets/chats_icon.svg';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,8 @@ const Contato = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <div className="container mx-auto px-6 py-16">
-        <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+        <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 text-center flex items-center justify-center gap-3">
+          <img src={chatsIcon} alt="Chat" className="w-12 h-12" />
           Fale Conosco
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-16 text-center">

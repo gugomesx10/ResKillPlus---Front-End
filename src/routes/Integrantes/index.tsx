@@ -1,5 +1,6 @@
 import Card from '../../components/Card/Card';
 import profilePic from '../../assets/profile_pic.png';
+import verifiedIcon from '../../assets/verified_icon.svg';
 
 const Integrantes = () => {
   const integrantes = [
@@ -37,8 +38,9 @@ const Integrantes = () => {
                   }}
                 />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-2">
                 {integrante.nome}
+                <img src={verifiedIcon} alt="Verificado" className="w-7 h-7" title="Perfil Verificado" />
               </h3>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-2">
                 {integrante.rm}
