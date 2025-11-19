@@ -42,7 +42,8 @@ const Login = () => {
     }
 
     try {
-      localStorage.setItem('token', 'mock-token');
+      localStorage.setItem('accessToken', 'mock-token');
+      localStorage.setItem('user', JSON.stringify({ name: 'Usuário', email }));
       navigate('/');
     } catch (err) {
       setError('Email ou senha inválidos');
@@ -68,7 +69,8 @@ const Login = () => {
       return;
     }
     try {
-      localStorage.setItem('token', 'mock-token');
+      localStorage.setItem('accessToken', 'mock-token');
+      localStorage.setItem('user', JSON.stringify({ name, email }));
       navigate('/');
     } catch (err) {
       setError('Erro ao criar conta. Tente novamente.');
