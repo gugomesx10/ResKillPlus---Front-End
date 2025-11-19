@@ -87,15 +87,19 @@ const Cursos = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="container mx-auto px-6 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-          Gerenciar Cursos
-        </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); }}>
-          {showForm ? 'Cancelar' : 'Novo Curso'}
-        </Button>
-      </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="container mx-auto px-6 py-12">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Gerenciar Cursos
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">Cadastre e gerencie os cursos da plataforma</p>
+          </div>
+          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); }}>
+            {showForm ? '✕ Cancelar' : '+ Novo Curso'}
+          </Button>
+        </div>
 
       {showForm && (
         <Card className="mb-8">
@@ -156,24 +160,25 @@ const Cursos = () => {
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               {curso.nome}
             </h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-3">
+            <p className="text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
               {curso.descricao}
             </p>
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>Carga Horária: {curso.cargaHoraria}h</p>
-              <p>Categoria: {curso.categoria}</p>
-              {curso.nivel && <p>Nível: {curso.nivel}</p>}
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 space-y-1">
+              <p>⏱️ Carga Horária: {curso.cargaHoraria}h</p>
+              <p>📚 Categoria: {curso.categoria}</p>
+              {curso.nivel && <p>📊 Nível: {curso.nivel}</p>}
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(curso)} variant="secondary">
-                Editar
+                ✏️ Editar
               </Button>
               <Button onClick={() => handleDelete(curso.nome)} variant="danger">
-                Excluir
+                🗑️ Excluir
               </Button>
             </div>
           </Card>
         ))}
+      </div>
       </div>
     </div>
   );
