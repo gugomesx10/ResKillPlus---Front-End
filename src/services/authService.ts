@@ -1,0 +1,35 @@
+import api from './api';
+
+const API_BASE_URL = 'https://sua-api-no-render.com';
+
+export const authService = {
+  loginGitHub: () => {
+    window.location.href = `${API_BASE_URL}/auth/github/login`;
+  },
+
+  loginGoogle: () => {
+    window.location.href = `${API_BASE_URL}/auth/google/login`;
+  },
+
+  loginMicrosoft: () => {
+    window.location.href = `${API_BASE_URL}/auth/microsoft/login`;
+  },
+
+  handleCallback: async (provider: 'github' | 'google' | 'microsoft') => {
+    return api.get(`/auth/${provider}/callback${window.location.search}`);
+  },
+
+  logout: () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+  },
+
+  isAuthenticated: () => {
+    return !!localStorage.getItem('accessToken');
+  },
+
+  getUser: () => {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  },
+};
