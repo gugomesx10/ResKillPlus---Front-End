@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { usuarioService } from '../../services/usuarioService';
-import { Usuario } from '../../types';
+import type { Usuario } from '../../types';
 
 const Usuarios = () => {
-  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -68,6 +67,7 @@ const Usuarios = () => {
       setLoading(true);
       try {
         await usuarioService.excluir(cpf);
+        setFormData({ cpf: '', nome: '', email: '', senha: '', telefone: '', dataNascimento: '' });
         alert('Usuário excluído com sucesso!');
       } catch (error) {
         console.error('Erro ao excluir usuário:', error);
@@ -150,20 +150,29 @@ const Usuarios = () => {
 
       <Card>
         <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6">
-          Buscar Usuário
+          Buscar/Excluir Usuário
         </h2>
-        <div className="flex gap-4">
-          <Input
-            label="Digite o CPF"
-            name="buscaCpf"
-            value=""
-            onChange={(e) => {
-              if (e.target.value.length >= 11) {
-                handleBuscar(e.target.value);
-              }
-            }}
-            placeholder="000.000.000-00"
-          />
+        <div className="space-y-4">
+          <div>
+            <Input
+              label="Digite o CPF para buscar"
+              name="buscaCpf"
+              value=""
+              onChange={(e) => {
+                if (e.target.value.length >= 11) {
+                  handleBuscar(e.target.value);
+                }
+              }}
+              placeholder="000.000.000-00"
+            />
+          </div>
+          {editMode && (
+            <div className="flex gap-2">
+              <Button onClick={() => handleDelete(formData.cpf)} variant="danger">
+                Excluir Usuário
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
     </div>

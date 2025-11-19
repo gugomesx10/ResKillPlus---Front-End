@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { matriculaService } from '../../services/matriculaService';
-import { Matricula } from '../../types';
+import type { Matricula } from '../../types';
 
 const Matriculas = () => {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);

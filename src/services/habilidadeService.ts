@@ -1,5 +1,5 @@
 import api from './api';
-import { Habilidade } from '../types';
+import type { Habilidade } from '../types';
 
 export const habilidadeService = {
   criar: (habilidade: Habilidade) => {

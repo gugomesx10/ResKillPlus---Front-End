@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { habilidadeService } from '../../services/habilidadeService';
-import { Habilidade } from '../../types';
+import type { Habilidade } from '../../types';
 
 const Habilidades = () => {
   const [habilidades, setHabilidades] = useState<Habilidade[]>([]);

@@ -1,5 +1,5 @@
 import api from './api';
-import { Curso } from '../types';
+import type { Curso } from '../types';
 
 export const cursoService = {
   criar: (curso: Curso) => {

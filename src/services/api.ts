@@ -9,10 +9,9 @@ const api = {
   async request(endpoint: string, options: RequestOptions = {}) {
     const token = localStorage.getItem('accessToken');
     
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'x-api-key': API_KEY,
-      ...options.headers,
     };
 
     if (token) {

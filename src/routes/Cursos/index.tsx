@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { cursoService } from '../../services/cursoService';
-import { Curso } from '../../types';
+import type { Curso } from '../../types';
 
 const Cursos = () => {
   const [cursos, setCursos] = useState<Curso[]>([]);

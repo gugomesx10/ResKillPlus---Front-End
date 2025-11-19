@@ -15,6 +15,8 @@ import Pagamentos from './routes/Pagamentos';
 import Login from './routes/Login';
 
 function App() {
+  console.log('App carregado');
+  
   return (
     <ThemeProvider>
       <Router>

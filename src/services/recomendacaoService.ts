@@ -1,5 +1,5 @@
 import api from './api';
-import { Recomendacao } from '../types';
+import type { Recomendacao } from '../types';
 
 export const recomendacaoService = {
   criar: (recomendacao: Recomendacao) => {

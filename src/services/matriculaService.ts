@@ -1,5 +1,5 @@
 import api from './api';
-import { Matricula } from '../types';
+import type { Matricula } from '../types';
 
 export const matriculaService = {
   criar: (matricula: Matricula) => {

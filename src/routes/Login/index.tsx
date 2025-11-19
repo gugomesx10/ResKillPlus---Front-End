@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
-import Button from '../../components/Button/Button';
 import { authService } from '../../services/authService';
 
 const Login = () => {

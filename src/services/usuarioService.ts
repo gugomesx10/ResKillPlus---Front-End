@@ -1,5 +1,5 @@
 import api from './api';
-import { Usuario } from '../types';
+import type { Usuario } from '../types';
 
 export const usuarioService = {
   criar: (usuario: Usuario) => {

@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { pagamentoService } from '../../services/pagamentoService';
-import { Pagamento } from '../../types';
+import type { Pagamento } from '../../types';
 
 const Pagamentos = () => {
   const [pagamentos, setPagamentos] = useState<Pagamento[]>([]);

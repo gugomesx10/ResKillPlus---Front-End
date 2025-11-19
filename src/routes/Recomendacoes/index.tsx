@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Loading from '../../components/Loading/Loading';
 import { recomendacaoService } from '../../services/recomendacaoService';
-import { Recomendacao } from '../../types';
+import type { Recomendacao } from '../../types';
 
 const Recomendacoes = () => {
   const [recomendacoes, setRecomendacoes] = useState<Recomendacao[]>([]);
