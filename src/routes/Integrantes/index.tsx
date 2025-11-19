@@ -1,4 +1,5 @@
 import Card from '../../components/Card/Card';
+import profilePic from '../../assets/profile_pic.png';
 
 const Integrantes = () => {
   const integrantes = [
@@ -7,7 +8,7 @@ const Integrantes = () => {
       rm: 'RM555999',
       turma: '1TDSPO',
       github: 'https://github.com/gugomesx10',
-      foto: '/profile.jpg', // Coloque sua foto em public/profile.jpg
+      foto: profilePic,
     },
   ];
 
