@@ -12,21 +12,36 @@ const Header = () => {
             ResKillPlus
           </Link>
           
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+          <div className="hidden md:flex items-center gap-4">
+            <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
               Início
             </Link>
-            <Link to="/cursos" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link to="/cursos" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
               Cursos
             </Link>
-            <Link to="/usuarios" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link to="/usuarios" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
               Usuários
             </Link>
-            <Link to="/integrantes" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link to="/habilidades" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+              Habilidades
+            </Link>
+            <Link to="/matriculas" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+              Matrículas
+            </Link>
+            <Link to="/recomendacoes" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+              Recomendações
+            </Link>
+            <Link to="/pagamentos" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+              Pagamentos
+            </Link>
+            <Link to="/integrantes" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
               Integrantes
             </Link>
-            <Link to="/sobre" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link to="/sobre" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
               Sobre
+            </Link>
+            <Link to="/contato" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm">
+              Contato
             </Link>
             
             <button
