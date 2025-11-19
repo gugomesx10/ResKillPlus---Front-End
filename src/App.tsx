@@ -13,6 +13,7 @@ import Matriculas from './routes/Matriculas';
 import Recomendacoes from './routes/Recomendacoes';
 import Pagamentos from './routes/Pagamentos';
 import Login from './routes/Login';
+import Perfil from './routes/Perfil';
 
 function AppContent() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function AppContent() {
           <Route path="/recomendacoes" element={<Recomendacoes />} />
           <Route path="/pagamentos" element={<Pagamentos />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </main>
       {!isLoginPage && <Footer />}
