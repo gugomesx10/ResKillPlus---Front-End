@@ -1,9 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [showManualLogin, setShowManualLogin] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (authService.isAuthenticated()) {
@@ -21,6 +30,49 @@ const Login = () => {
 
   const handleMicrosoftLogin = () => {
     authService.loginMicrosoft();
+  };
+
+  const handleManualLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!email || !password) {
+      setError('Por favor, preencha todos os campos');
+      return;
+    }
+
+    try {
+      localStorage.setItem('token', 'mock-token');
+      navigate('/');
+    } catch (err) {
+      setError('Email ou senha inválidos');
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!name || !email || !password || !confirmPassword) {
+      setError('Por favor, preencha todos os campos');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('As senhas não coincidem');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres');
+      return;
+    }
+    try {
+      localStorage.setItem('token', 'mock-token');
+      navigate('/');
+    } catch (err) {
+      setError('Erro ao criar conta. Tente novamente.');
+    }
   };
 
   return (
@@ -89,13 +141,15 @@ const Login = () => {
 
           <div className="hidden lg:block mb-8">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Entrar na plataforma
+              {isSignUp ? 'Criar sua conta' : 'Entrar na plataforma'}
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              Escolha seu método de autenticação preferido
+              {isSignUp ? 'Comece sua jornada de aprendizado' : 'Escolha seu método de autenticação preferido'}
             </p>
           </div>
 
+          {!showManualLogin ? (
+          <>
           <div className="space-y-4">
             <button
               onClick={handleGitHubLogin}
@@ -136,6 +190,144 @@ const Login = () => {
               <span className="relative z-10">Continuar com Microsoft</span>
             </button>
           </div>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-400">
+                  ou
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              setShowManualLogin(true);
+              setIsSignUp(false);
+            }}
+            className="mt-6 w-full py-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors duration-200"
+          >
+            Entrar com email e senha
+          </button>
+          </>
+          ) : (
+          <>
+          <form onSubmit={isSignUp ? handleSignUp : handleManualLogin} className="space-y-6">
+            {error && (
+              <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            {isSignUp && (
+              <Input
+                label="Nome completo"
+                name="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Seu nome"
+                required
+              />
+            )}
+
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              required
+            />
+
+            <Input
+              label="Senha"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+
+            {isSignUp && (
+              <Input
+                label="Confirmar senha"
+                name="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+            )}
+
+            {!isSignUp && (
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
+                  />
+                  <span className="text-gray-600 dark:text-gray-400">Lembrar de mim</span>
+                </label>
+                <a href="#" className="text-gray-900 dark:text-white hover:underline font-medium">
+                  Esqueceu a senha?
+                </a>
+              </div>
+            )}
+
+            <Button type="submit" variant="primary" className="w-full">
+              {isSignUp ? 'Criar conta' : 'Entrar'}
+            </Button>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError('');
+                  setName('');
+                  setEmail('');
+                  setPassword('');
+                  setConfirmPassword('');
+                }}
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+              >
+                {isSignUp ? 'Já tem uma conta? ' : 'Não tem uma conta? '}
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {isSignUp ? 'Entrar' : 'Cadastre-se'}
+                </span>
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-400">
+                  ou
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowManualLogin(false)}
+            className="mt-6 w-full py-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors duration-200"
+          >
+            Voltar para login social
+          </button>
+          </>
+          )}
 
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
             <p className="text-center text-sm text-gray-600 dark:text-gray-400">
