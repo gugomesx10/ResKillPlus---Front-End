@@ -15,14 +15,12 @@ import Pagamentos from './routes/Pagamentos';
 import Login from './routes/Login';
 
 function App() {
-  console.log('App carregado');
-  
   return (
     <ThemeProvider>
       <Router>
-        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950">
           <Header />
-          <main className="flex-grow">
+          <main className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/sobre" element={<Sobre />} />
