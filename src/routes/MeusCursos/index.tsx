@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
+import reactImg from '../../assets/reactjs.svg';
+import typescriptImg from '../../assets/Typescript.svg.png';
+import nodejsImg from '../../assets/nodejs-logo-adesivo-sticker.png';
 
 const MeusCursos = () => {
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ const MeusCursos = () => {
       progresso: 75,
       horasCompletas: 18,
       horasTotais: 24,
-      thumbnail: '🎓',
+      thumbnail: reactImg,
       categoria: 'Desenvolvimento Web',
       status: 'em_andamento'
     },
@@ -24,7 +27,7 @@ const MeusCursos = () => {
       progresso: 45,
       horasCompletas: 9,
       horasTotais: 20,
-      thumbnail: '📘',
+      thumbnail: typescriptImg,
       categoria: 'Programação',
       status: 'em_andamento'
     },
@@ -35,7 +38,7 @@ const MeusCursos = () => {
       progresso: 100,
       horasCompletas: 16,
       horasTotais: 16,
-      thumbnail: '✅',
+      thumbnail: nodejsImg,
       categoria: 'Backend',
       status: 'concluido'
     },
@@ -118,9 +121,12 @@ const MeusCursos = () => {
           {cursos.map((curso) => (
             <Card key={curso.id} className="hover:shadow-lg transition-shadow duration-300">
               <div className="flex flex-col md:flex-row gap-6">
-                {/* Thumbnail */}
-                <div className="w-24 h-24 flex-shrink-0 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 rounded-lg flex items-center justify-center text-4xl">
-                  {curso.thumbnail}
+                <div className="w-24 h-24 flex-shrink-0 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden p-3">
+                  <img 
+                    src={curso.thumbnail} 
+                    alt={curso.titulo}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
 
                 {/* Informações */}
