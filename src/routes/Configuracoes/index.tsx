@@ -29,7 +29,7 @@ const Configuracoes = () => {
     localStorage.setItem('notificacoesPush', notificacoesPush.toString());
     localStorage.setItem('modoEscuroAuto', modoEscuroAuto.toString());
     
-    alert('✅ Configurações salvas com sucesso!');
+    alert('Configurações salvas com sucesso!');
   };
 
   const handleChangePassword = () => {
@@ -38,17 +38,17 @@ const Configuracoes = () => {
     
     const novaSenha = prompt('Digite sua nova senha (mínimo 6 caracteres):');
     if (!novaSenha || novaSenha.length < 6) {
-      alert('⚠️ A senha deve ter pelo menos 6 caracteres!');
+      alert('A senha deve ter pelo menos 6 caracteres!');
       return;
     }
     
     const confirmarSenha = prompt('Confirme sua nova senha:');
     if (novaSenha !== confirmarSenha) {
-      alert('⚠️ As senhas não coincidem!');
+      alert('As senhas não coincidem!');
       return;
     }
     
-    alert('✅ Senha alterada com sucesso!');
+    alert('Senha alterada com sucesso!');
   };
 
   const handleToggle2FA = () => {
@@ -78,12 +78,12 @@ const Configuracoes = () => {
     a.click();
     URL.revokeObjectURL(url);
     
-    alert('📥 Download dos seus dados iniciado!');
+    alert('Download dos seus dados iniciado!');
   };
 
   const handleDeactivateAccount = () => {
     const confirmacao = window.confirm(
-      '⚠️ Tem certeza que deseja desativar sua conta?\n\nVocê pode reativá-la fazendo login novamente dentro de 30 dias.'
+      'Tem certeza que deseja desativar sua conta?\n\nVocê pode reativá-la fazendo login novamente dentro de 30 dias.'
     );
     
     if (confirmacao) {
@@ -95,7 +95,7 @@ const Configuracoes = () => {
 
   const handleDeleteAccount = () => {
     const confirmacao1 = window.confirm(
-      '🗑️ ATENÇÃO: Esta ação é IRREVERSÍVEL!\n\nTodos os seus dados, cursos e progresso serão PERMANENTEMENTE deletados.\n\nDeseja continuar?'
+      'ATENÇÃO: Esta ação é IRREVERSÍVEL!\n\nTodos os seus dados, cursos e progresso serão PERMANENTEMENTE deletados.\n\nDeseja continuar?'
     );
     
     if (!confirmacao1) return;
@@ -109,11 +109,11 @@ const Configuracoes = () => {
     const digitado = prompt('Digite "DELETAR" para confirmar:');
     
     if (digitado === 'DELETAR') {
-      alert('🗑️ Conta deletada permanentemente. Sentiremos sua falta!');
+      alert('Conta deletada permanentemente. Sentiremos sua falta!');
       authService.logout();
       navigate('/login');
     } else {
-      alert('❌ Ação cancelada. Ainda bem que você ficou!');
+      alert('Ação cancelada. Ainda bem que você ficou!');
     }
   };
 
@@ -229,33 +229,33 @@ const Configuracoes = () => {
           {/* Privacidade */}
           <Card>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              🔒 Privacidade e Segurança
+              Privacidade e Segurança
             </h2>
             
             <div className="space-y-3">
               <Button variant="secondary" className="w-full justify-between" onClick={handleChangePassword}>
-                <span>🔑 Alterar Senha</span>
+                <span>Alterar Senha</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Button>
               
               <Button variant="secondary" className="w-full justify-between" onClick={handleToggle2FA}>
-                <span>🔐 Autenticação em Duas Etapas {twoFAEnabled ? '(Ativada)' : '(Desativada)'}</span>
+                <span>Autenticação em Duas Etapas {twoFAEnabled ? '(Ativada)' : '(Desativada)'}</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Button>
               
               <Button variant="secondary" className="w-full justify-between" onClick={() => alert('📱 Página de dispositivos em desenvolvimento')}>
-                <span>📱 Dispositivos Conectados</span>
+                <span>Dispositivos Conectados</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Button>
               
               <Button variant="secondary" className="w-full justify-between" onClick={handleDownloadData}>
-                <span>📜 Baixar Meus Dados</span>
+                <span>Baixar Meus Dados</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -266,7 +266,7 @@ const Configuracoes = () => {
           {/* Conta */}
           <Card className="border-red-200 dark:border-red-800">
             <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
-              ⚠️ Zona de Perigo
+              Atenção nesta Área
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Ações irreversíveis que afetam permanentemente sua conta
@@ -274,14 +274,14 @@ const Configuracoes = () => {
             
             <div className="space-y-3">
               <Button variant="secondary" className="w-full justify-between text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20" onClick={handleDeactivateAccount}>
-                <span>🚫 Desativar Conta</span>
+                <span>Desativar Conta</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Button>
               
               <Button variant="danger" className="w-full" onClick={handleDeleteAccount}>
-                🗑️ Deletar Conta Permanentemente
+                Deletar Conta Permanentemente
               </Button>
             </div>
           </Card>
@@ -292,7 +292,7 @@ const Configuracoes = () => {
               Cancelar
             </Button>
             <Button variant="primary" onClick={handleSaveSettings}>
-              💾 Salvar Configurações
+              Salvar Configurações
             </Button>
           </div>
         </div>
