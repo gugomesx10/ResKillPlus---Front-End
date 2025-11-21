@@ -11,6 +11,8 @@ const Cursos = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Curso>({
     nome: '',
     descricao: '',
@@ -25,11 +27,13 @@ const Cursos = () => {
 
   const carregarCursos = async () => {
     setLoading(true);
+    setError('');
     try {
       const data = await cursoService.listarTodos();
-      setCursos(data);
-    } catch (error) {
+      setCursos(Array.isArray(data) ? data : []);
+    } catch (error: any) {
       console.error('Erro ao carregar cursos:', error);
+      setError(error.message || 'Erro ao carregar cursos. Verifique se a API está acessível.');
     } finally {
       setLoading(false);
     }
@@ -45,19 +49,24 @@ const Cursos = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    setSuccess('');
     try {
       if (editMode) {
         await cursoService.atualizar(formData);
+        setSuccess('Curso atualizado com sucesso!');
       } else {
         await cursoService.criar(formData);
+        setSuccess('Curso cadastrado com sucesso!');
       }
       setShowForm(false);
       setEditMode(false);
       setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' });
-      carregarCursos();
-    } catch (error) {
+      await carregarCursos();
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error: any) {
       console.error('Erro ao salvar curso:', error);
-      alert('Erro ao salvar curso');
+      setError(error.message || 'Erro ao salvar curso. Verifique sua conexão e tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -72,12 +81,16 @@ const Cursos = () => {
   const handleDelete = async (nome: string) => {
     if (confirm('Tem certeza que deseja excluir este curso?')) {
       setLoading(true);
+      setError('');
+      setSuccess('');
       try {
         await cursoService.excluir(nome);
-        carregarCursos();
-      } catch (error) {
+        setSuccess('Curso excluído com sucesso!');
+        await carregarCursos();
+        setTimeout(() => setSuccess(''), 3000);
+      } catch (error: any) {
         console.error('Erro ao excluir curso:', error);
-        alert('Erro ao excluir curso');
+        setError(error.message || 'Erro ao excluir curso. Tente novamente.');
       } finally {
         setLoading(false);
       }
@@ -96,10 +109,22 @@ const Cursos = () => {
             </h1>
             <p className="text-gray-600 dark:text-gray-400">Cadastre e gerencie os cursos da plataforma</p>
           </div>
-          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); }}>
+          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); setError(''); setSuccess(''); }}>
             {showForm ? '✕ Cancelar' : '+ Novo Curso'}
           </Button>
         </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400">❌ {error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <p className="text-sm text-green-600 dark:text-green-400">✅ {success}</p>
+          </div>
+        )}
 
       {showForm && (
         <Card className="mb-8">

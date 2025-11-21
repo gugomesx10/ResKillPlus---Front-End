@@ -1,18 +1,22 @@
 import api from './api';
 
 const API_BASE_URL = 'https://reskillplus-java.onrender.com';
+const FRONTEND_URL = window.location.origin; // URL do frontend atual
 
 export const authService = {
   loginGitHub: () => {
-    window.location.href = `${API_BASE_URL}/auth/github/login`;
+    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/github`);
+    window.location.href = `${API_BASE_URL}/auth/github/login?redirect_uri=${redirectUri}`;
   },
 
   loginGoogle: () => {
-    window.location.href = `${API_BASE_URL}/auth/google/login`;
+    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/google`);
+    window.location.href = `${API_BASE_URL}/auth/google/login?redirect_uri=${redirectUri}`;
   },
 
   loginMicrosoft: () => {
-    window.location.href = `${API_BASE_URL}/auth/microsoft/login`;
+    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/microsoft`);
+    window.location.href = `${API_BASE_URL}/auth/microsoft/login?redirect_uri=${redirectUri}`;
   },
 
   handleCallback: async (provider: 'github' | 'google' | 'microsoft') => {
