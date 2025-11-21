@@ -1,6 +1,6 @@
 import api from './api';
 
-const API_BASE_URL = 'https://sua-api-no-render.com';
+const API_BASE_URL = 'https://reskillplus-java.onrender.com';
 
 export const authService = {
   loginGitHub: () => {
