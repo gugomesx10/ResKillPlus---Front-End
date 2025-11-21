@@ -42,8 +42,9 @@ const Login = () => {
     }
 
     try {
-      localStorage.setItem('accessToken', 'mock-token');
-      localStorage.setItem('user', JSON.stringify({ name: 'Usuário', email }));
+      const token = `temp-token-${Date.now()}`;
+      localStorage.setItem('accessToken', token);
+      localStorage.setItem('user', JSON.stringify({ name: email.split('@')[0], email }));
       navigate('/');
     } catch (err) {
       setError('Email ou senha inválidos');
@@ -68,8 +69,10 @@ const Login = () => {
       setError('A senha deve ter pelo menos 6 caracteres');
       return;
     }
+    
     try {
-      localStorage.setItem('accessToken', 'mock-token');
+      const token = `temp-token-${Date.now()}`;
+      localStorage.setItem('accessToken', token);
       localStorage.setItem('user', JSON.stringify({ name, email }));
       navigate('/');
     } catch (err) {

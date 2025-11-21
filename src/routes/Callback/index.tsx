@@ -12,28 +12,28 @@ const Callback = () => {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const token = searchParams.get('token');
-        const accessToken = searchParams.get('access_token');
-        const userStr = searchParams.get('user');
+        const code = searchParams.get('code');
         
-        if (token || accessToken) {
-          localStorage.setItem('accessToken', token || accessToken || '');
-          if (userStr) {
-            localStorage.setItem('user', decodeURIComponent(userStr));
+        if (!code) {
+          throw new Error('Código não recebido do provedor');
+        }
+
+        const response = await authService.handleCallback(provider as any, code);
+        
+        if (response.accessToken) {
+          localStorage.setItem('accessToken', response.accessToken);
+          
+          if (response.nome && response.email) {
+            localStorage.setItem('user', JSON.stringify({
+              name: response.nome,
+              email: response.email,
+              avatar: response.avatarUrl
+            }));
           }
+          
           navigate('/');
         } else {
-          const response = await authService.handleCallback(provider as any);
-          
-          if (response.token || response.access_token) {
-            localStorage.setItem('accessToken', response.token || response.access_token);
-            if (response.user) {
-              localStorage.setItem('user', JSON.stringify(response.user));
-            }
-            navigate('/');
-          } else {
-            throw new Error('Token não recebido');
-          }
+          throw new Error('Token não recebido');
         }
       } catch (err: any) {
         console.error('Erro no callback:', err);

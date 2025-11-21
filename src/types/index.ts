@@ -49,8 +49,11 @@ export interface Pagamento {
 }
 
 export interface AuthUser {
-  nome: string;
-  email: string;
+  nome?: string;
+  email?: string;
   avatar?: string;
-  accessToken: string;
+  avatarUrl?: string;
+  accessToken?: string;
+  provider?: string;
+  providerId?: string;
 }

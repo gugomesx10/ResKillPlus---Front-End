@@ -5,22 +5,23 @@ const FRONTEND_URL = window.location.origin; // URL do frontend atual
 
 export const authService = {
   loginGitHub: () => {
-    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/github`);
-    window.location.href = `${API_BASE_URL}/auth/github/login?redirect_uri=${redirectUri}`;
+    window.location.href = `${API_BASE_URL}/auth/github/login`;
   },
 
   loginGoogle: () => {
-    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/google`);
-    window.location.href = `${API_BASE_URL}/auth/google/login?redirect_uri=${redirectUri}`;
+    window.location.href = `${API_BASE_URL}/auth/google/login`;
   },
 
   loginMicrosoft: () => {
-    const redirectUri = encodeURIComponent(`${FRONTEND_URL}/callback/microsoft`);
-    window.location.href = `${API_BASE_URL}/auth/microsoft/login?redirect_uri=${redirectUri}`;
+    window.location.href = `${API_BASE_URL}/auth/microsoft/login`;
   },
 
-  handleCallback: async (provider: 'github' | 'google' | 'microsoft') => {
-    return api.get(`/auth/${provider}/callback${window.location.search}`);
+  handleCallback: async (provider: 'github' | 'google' | 'microsoft', code: string) => {
+    const redirectUri = `${FRONTEND_URL}/callback/${provider}`;
+    return api.post(`/auth/${provider}`, {
+      code: code,
+      redirectUri: redirectUri
+    });
   },
 
   logout: () => {
