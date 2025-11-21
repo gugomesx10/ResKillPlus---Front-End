@@ -192,13 +192,15 @@ const Perfil = () => {
 
             <Card className="border-red-200 dark:border-red-800">
               <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-                Zona de Perigo
+                Cuidado para Deletar Conta 
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Ações irreversíveis que afetam sua conta
+                Tem certeza?
+                Absoluta?
+                Nós te magoamos? Porque se for o caso, podemos conversar...
               </p>
               <Button variant="danger" className="w-full">
-                🗑️ Deletar Conta
+                Deletar Conta
               </Button>
             </Card>
           </div>
