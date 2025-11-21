@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://sua-api-no-render.com';
+const API_BASE_URL = 'https://reskillplus-java.onrender.com';
 const API_KEY = 'reskillplus123';
 
 interface RequestOptions extends RequestInit {

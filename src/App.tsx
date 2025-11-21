@@ -14,6 +14,8 @@ import Recomendacoes from './routes/Recomendacoes';
 import Pagamentos from './routes/Pagamentos';
 import Login from './routes/Login';
 import Perfil from './routes/Perfil';
+import MeusCursos from './routes/MeusCursos';
+import Configuracoes from './routes/Configuracoes';
 
 function AppContent() {
   const location = useLocation();
@@ -36,6 +38,8 @@ function AppContent() {
           <Route path="/pagamentos" element={<Pagamentos />} />
           <Route path="/login" element={<Login />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/meus-cursos" element={<MeusCursos />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
         </Routes>
       </main>
       {!isLoginPage && <Footer />}
