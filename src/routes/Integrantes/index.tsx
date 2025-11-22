@@ -32,7 +32,6 @@ const Integrantes = () => {
                   alt={integrante.nome}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    // Fallback se a imagem não carregar
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full bg-gray-900 dark:bg-white flex items-center justify-center"><span class="text-5xl text-white dark:text-gray-900 font-bold">${integrante.nome.charAt(0)}</span></div>`;
                   }}

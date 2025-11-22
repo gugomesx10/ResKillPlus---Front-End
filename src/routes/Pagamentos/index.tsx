@@ -11,10 +11,9 @@ const Pagamentos = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Pagamento>({
-    cpfUsuario: '',
-    nomeCurso: '',
-    valor: 0,
-    metodoPagamento: '',
+    corporacaoId: 0,
+    userId: 0,
+    quantia: 0,
     status: 'PENDENTE',
     dataPagamento: '',
   });
@@ -47,12 +46,13 @@ const Pagamentos = () => {
     setLoading(true);
     try {
       await pagamentoService.criar(formData);
+      alert('Pagamento cadastrado com sucesso!');
       setShowForm(false);
-      setFormData({ cpfUsuario: '', nomeCurso: '', valor: 0, metodoPagamento: '', status: 'PENDENTE', dataPagamento: '' });
+      setFormData({ corporacaoId: 0, userId: 0, quantia: 0, status: 'PENDENTE', dataPagamento: '' });
       carregarPagamentos();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar pagamento:', error);
-      alert('Erro ao salvar pagamento');
+      alert(`Erro ao salvar pagamento: ${error.message || 'Verifique se a API está funcionando'}`);
     } finally {
       setLoading(false);
     }
@@ -94,7 +94,7 @@ const Pagamentos = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Pagamentos
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setFormData({ cpfUsuario: '', nomeCurso: '', valor: 0, metodoPagamento: '', status: 'PENDENTE', dataPagamento: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setFormData({ corporacaoId: 0, userId: 0, quantia: 0, status: 'PENDENTE', dataPagamento: '' }); }}>
           {showForm ? 'Cancelar' : 'Novo Pagamento'}
         </Button>
       </div>
@@ -106,47 +106,30 @@ const Pagamentos = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             <Input
-              label="CPF do Usuário"
-              name="cpfUsuario"
-              value={formData.cpfUsuario}
-              onChange={handleChange}
-              required
-              placeholder="000.000.000-00"
-            />
-            <Input
-              label="Nome do Curso"
-              name="nomeCurso"
-              value={formData.nomeCurso}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Valor (R$)"
+              label="Corporação ID"
               type="number"
-              name="valor"
-              value={formData.valor.toString()}
+              name="corporacaoId"
+              value={formData.corporacaoId.toString()}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Usuário ID"
+              type="number"
+              name="userId"
+              value={formData.userId.toString()}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Quantia (R$)"
+              type="number"
+              name="quantia"
+              value={formData.quantia.toString()}
               onChange={handleChange}
               required
               placeholder="0.00"
             />
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Método de Pagamento <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="metodoPagamento"
-                value={formData.metodoPagamento}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              >
-                <option value="">Selecione</option>
-                <option value="CARTAO_CREDITO">Cartão de Crédito</option>
-                <option value="CARTAO_DEBITO">Cartão de Débito</option>
-                <option value="PIX">PIX</option>
-                <option value="BOLETO">Boleto</option>
-              </select>
-            </div>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Status <span className="text-red-500">*</span>
@@ -179,12 +162,12 @@ const Pagamentos = () => {
         {pagamentos.map((pagamento, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {pagamento.nomeCurso}
+              Pagamento #{pagamento.id}
             </h3>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>CPF: {pagamento.cpfUsuario}</p>
-              <p className="text-lg font-bold text-green-600">R$ {pagamento.valor.toFixed(2)}</p>
-              <p>Método: {pagamento.metodoPagamento}</p>
+              <p>Corporação ID: {pagamento.corporacaoId}</p>
+              <p>Usuário ID: {pagamento.userId}</p>
+              <p className="text-lg font-bold text-green-600">R$ {(pagamento.quantia || 0).toFixed(2)}</p>
               <p>Status: <span className={`font-semibold ${pagamento.status === 'APROVADO' ? 'text-green-600' : pagamento.status === 'PENDENTE' ? 'text-yellow-600' : 'text-red-600'}`}>{pagamento.status}</span></p>
               {pagamento.dataPagamento && (
                 <p>Data: {new Date(pagamento.dataPagamento).toLocaleDateString()}</p>

@@ -12,10 +12,10 @@ const Recomendacoes = () => {
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<Recomendacao>({
-    cpf: '',
-    nomeCurso: '',
-    motivo: '',
-    dataRecomendacao: '',
+    cpf_usuario: '',
+    nome_curso: '',
+    motivo_recomendacao: '',
+    data_recomendacao: '',
   });
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Recomendacoes = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ cpf: '', nomeCurso: '', motivo: '', dataRecomendacao: '' });
+      setFormData({ cpf_usuario: '', nome_curso: '', motivo_recomendacao: '', data_recomendacao: '' });
       carregarRecomendacoes();
     } catch (error) {
       console.error('Erro ao salvar recomendação:', error);
@@ -91,7 +91,7 @@ const Recomendacoes = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Recomendações
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf: '', nomeCurso: '', motivo: '', dataRecomendacao: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', motivo_recomendacao: '', data_recomendacao: '' }); }}>
           {showForm ? 'Cancelar' : 'Nova Recomendação'}
         </Button>
       </div>
@@ -104,16 +104,16 @@ const Recomendacoes = () => {
           <form onSubmit={handleSubmit}>
             <Input
               label="CPF do Usuário"
-              name="cpf"
-              value={formData.cpf}
+              name="cpf_usuario"
+              value={formData.cpf_usuario}
               onChange={handleChange}
               required
               placeholder="000.000.000-00"
             />
             <Input
               label="Nome do Curso"
-              name="nomeCurso"
-              value={formData.nomeCurso}
+              name="nome_curso"
+              value={formData.nome_curso}
               onChange={handleChange}
               required
             />
@@ -122,8 +122,8 @@ const Recomendacoes = () => {
                 Motivo da Recomendação <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="motivo"
-                value={formData.motivo}
+                name="motivo_recomendacao"
+                value={formData.motivo_recomendacao}
                 onChange={handleChange}
                 required
                 rows={4}
@@ -133,8 +133,8 @@ const Recomendacoes = () => {
             <Input
               label="Data da Recomendação"
               type="date"
-              name="dataRecomendacao"
-              value={formData.dataRecomendacao || ''}
+              name="data_recomendacao"
+              value={formData.data_recomendacao || ''}
               onChange={handleChange}
             />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
@@ -146,15 +146,15 @@ const Recomendacoes = () => {
         {recomendacoes.map((recomendacao, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {recomendacao.nomeCurso}
+              {recomendacao.nome_curso}
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-3">
-              {recomendacao.motivo}
+              {recomendacao.motivo_recomendacao}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>CPF: {recomendacao.cpf}</p>
-              {recomendacao.dataRecomendacao && (
-                <p>Data: {new Date(recomendacao.dataRecomendacao).toLocaleDateString()}</p>
+              <p>CPF: {recomendacao.cpf_usuario}</p>
+              {recomendacao.data_recomendacao && (
+                <p>Data: {new Date(recomendacao.data_recomendacao).toLocaleDateString()}</p>
               )}
             </div>
             <div className="flex gap-2">

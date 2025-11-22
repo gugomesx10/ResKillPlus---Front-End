@@ -12,10 +12,10 @@ const Habilidades = () => {
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<Habilidade>({
-    nome: '',
-    descricao: '',
-    categoria: '',
-    nivelDificuldade: '',
+    nome_habilidade: '',
+    descricao_habilidade: '',
+    categoria_habilidade: '',
+    nivel_dificuldade: '',
   });
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Habilidades = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ nome: '', descricao: '', categoria: '', nivelDificuldade: '' });
+      setFormData({ nome_habilidade: '', descricao_habilidade: '', categoria_habilidade: '', nivel_dificuldade: '' });
       carregarHabilidades();
     } catch (error) {
       console.error('Erro ao salvar habilidade:', error);
@@ -91,7 +91,7 @@ const Habilidades = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Habilidades
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', categoria: '', nivelDificuldade: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_habilidade: '', descricao_habilidade: '', categoria_habilidade: '', nivel_dificuldade: '' }); }}>
           {showForm ? 'Cancelar' : 'Nova Habilidade'}
         </Button>
       </div>
@@ -104,8 +104,8 @@ const Habilidades = () => {
           <form onSubmit={handleSubmit}>
             <Input
               label="Nome da Habilidade"
-              name="nome"
-              value={formData.nome}
+              name="nome_habilidade"
+              value={formData.nome_habilidade}
               onChange={handleChange}
               required
               disabled={editMode}
@@ -115,8 +115,8 @@ const Habilidades = () => {
                 Descrição <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="descricao"
-                value={formData.descricao}
+                name="descricao_habilidade"
+                value={formData.descricao_habilidade}
                 onChange={handleChange}
                 required
                 rows={4}
@@ -125,15 +125,15 @@ const Habilidades = () => {
             </div>
             <Input
               label="Categoria"
-              name="categoria"
-              value={formData.categoria}
+              name="categoria_habilidade"
+              value={formData.categoria_habilidade}
               onChange={handleChange}
               required
             />
             <Input
               label="Nível de Dificuldade"
-              name="nivelDificuldade"
-              value={formData.nivelDificuldade || ''}
+              name="nivel_dificuldade"
+              value={formData.nivel_dificuldade || ''}
               onChange={handleChange}
               placeholder="Básico, Intermediário ou Avançado"
             />
@@ -146,20 +146,20 @@ const Habilidades = () => {
         {habilidades.map((habilidade, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {habilidade.nome}
+              {habilidade.nome_habilidade}
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-3">
-              {habilidade.descricao}
+              {habilidade.descricao_habilidade}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>Categoria: {habilidade.categoria}</p>
-              {habilidade.nivelDificuldade && <p>Nível: {habilidade.nivelDificuldade}</p>}
+              <p>Categoria: {habilidade.categoria_habilidade}</p>
+              {habilidade.nivel_dificuldade && <p>Nível: {habilidade.nivel_dificuldade}</p>}
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(habilidade)} variant="secondary">
                 Editar
               </Button>
-              <Button onClick={() => handleDelete(habilidade.nome)} variant="danger">
+              <Button onClick={() => handleDelete(habilidade.nome_habilidade)} variant="danger">
                 Excluir
               </Button>
             </div>

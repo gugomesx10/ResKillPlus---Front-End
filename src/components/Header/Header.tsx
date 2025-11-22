@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useState, useEffect } from 'react';
 import { authService } from '../../services/authService';
+import logo from '../../assets/ResKillPlus.png';
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -29,8 +30,9 @@ const Header = () => {
     <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-gray-900 dark:text-white">
-            ResKillPlus
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logo} alt="ResKillPlus" className="h-10 w-auto" />
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">ResKillPlus</span>
           </Link>
           
           <button

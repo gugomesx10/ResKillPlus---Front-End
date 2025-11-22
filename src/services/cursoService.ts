@@ -6,8 +6,8 @@ export const cursoService = {
     return api.post('/curso', curso);
   },
 
-  buscarPorNome: (nome: string) => {
-    return api.get(`/curso/buscar/${nome}`);
+  buscarPorNome: (nome_curso: string) => {
+    return api.get(`/curso/buscar/${nome_curso}`);
   },
 
   listarTodos: () => {
@@ -18,7 +18,7 @@ export const cursoService = {
     return api.put('/curso', curso);
   },
 
-  excluir: (nome: string) => {
-    return api.delete(`/curso/excluir/${nome}`);
+  excluir: (nome_curso: string) => {
+    return api.delete(`/curso/excluir/${nome_curso}`);
   },
 };

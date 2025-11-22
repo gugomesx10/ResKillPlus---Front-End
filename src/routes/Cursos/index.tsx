@@ -14,11 +14,11 @@ const Cursos = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Curso>({
-    nome: '',
-    descricao: '',
-    cargaHoraria: 0,
-    categoria: '',
-    nivel: '',
+    nome_curso: '',
+    descricao_curso: '',
+    carga_horaria: 0,
+    categoria_curso: '',
+    nivel_curso: '',
   });
 
   useEffect(() => {
@@ -33,7 +33,9 @@ const Cursos = () => {
       setCursos(Array.isArray(data) ? data : []);
     } catch (error: any) {
       console.error('Erro ao carregar cursos:', error);
-      setError(error.message || 'Erro ao carregar cursos. Verifique se a API está acessível.');
+      if (error.message && !error.message.includes('Failed to fetch')) {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -61,7 +63,7 @@ const Cursos = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' });
+      setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria_curso: '', nivel_curso: '' });
       await carregarCursos();
       setTimeout(() => setSuccess(''), 3000);
     } catch (error: any) {
@@ -109,7 +111,7 @@ const Cursos = () => {
             </h1>
             <p className="text-gray-600 dark:text-gray-400">Cadastre e gerencie os cursos da plataforma</p>
           </div>
-          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); setError(''); setSuccess(''); }}>
+          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria_curso: '', nivel_curso: '' }); setError(''); setSuccess(''); }}>
             {showForm ? '✕ Cancelar' : '+ Novo Curso'}
           </Button>
         </div>
@@ -134,8 +136,8 @@ const Cursos = () => {
           <form onSubmit={handleSubmit}>
             <Input
               label="Nome do Curso"
-              name="nome"
-              value={formData.nome}
+              name="nome_curso"
+              value={formData.nome_curso}
               onChange={handleChange}
               required
               disabled={editMode}
@@ -145,8 +147,8 @@ const Cursos = () => {
                 Descrição <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="descricao"
-                value={formData.descricao}
+                name="descricao_curso"
+                value={formData.descricao_curso}
                 onChange={handleChange}
                 required
                 rows={4}
@@ -156,22 +158,22 @@ const Cursos = () => {
             <Input
               label="Carga Horária"
               type="number"
-              name="cargaHoraria"
-              value={formData.cargaHoraria.toString()}
+              name="carga_horaria"
+              value={formData.carga_horaria.toString()}
               onChange={handleChange}
               required
             />
             <Input
               label="Categoria"
-              name="categoria"
-              value={formData.categoria}
+              name="categoria_curso"
+              value={formData.categoria_curso}
               onChange={handleChange}
               required
             />
             <Input
               label="Nível"
-              name="nivel"
-              value={formData.nivel || ''}
+              name="nivel_curso"
+              value={formData.nivel_curso || ''}
               onChange={handleChange}
             />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
@@ -183,21 +185,21 @@ const Cursos = () => {
         {cursos.map((curso, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {curso.nome}
+              {curso.nome_curso}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
-              {curso.descricao}
+              {curso.descricao_curso}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 space-y-1">
-              <p>⏱️ Carga Horária: {curso.cargaHoraria}h</p>
-              <p>📚 Categoria: {curso.categoria}</p>
-              {curso.nivel && <p>📊 Nível: {curso.nivel}</p>}
+              <p>⏱️ Carga Horária: {curso.carga_horaria}h</p>
+              <p>📚 Categoria: {curso.categoria_curso}</p>
+              {curso.nivel_curso && <p>📊 Nível: {curso.nivel_curso}</p>}
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(curso)} variant="secondary">
                 ✏️ Editar
               </Button>
-              <Button onClick={() => handleDelete(curso.nome)} variant="danger">
+              <Button onClick={() => handleDelete(curso.nome_curso)} variant="danger">
                 🗑️ Excluir
               </Button>
             </div>

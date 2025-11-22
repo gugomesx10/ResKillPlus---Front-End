@@ -6,8 +6,8 @@ export const matriculaService = {
     return api.post('/matricula', matricula);
   },
 
-  buscar: (cpfUsuario: string, nomeCurso: string) => {
-    return api.get(`/matricula/buscar/${cpfUsuario}/${nomeCurso}`);
+  buscar: (cpf_usuario: string, nome_curso: string) => {
+    return api.get(`/matricula/buscar/${cpf_usuario}/${nome_curso}`);
   },
 
   listarTodas: () => {
@@ -18,7 +18,7 @@ export const matriculaService = {
     return api.put('/matricula', matricula);
   },
 
-  excluir: (cpfUsuario: string, nomeCurso: string) => {
-    return api.delete(`/matricula/excluir/${cpfUsuario}/${nomeCurso}`);
+  excluir: (cpf_usuario: string, nome_curso: string) => {
+    return api.delete(`/matricula/excluir/${cpf_usuario}/${nome_curso}`);
   },
 };

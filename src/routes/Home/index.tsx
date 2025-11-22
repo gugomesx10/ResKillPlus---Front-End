@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
+import logo from '../../assets/ResKillPlus.png';
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <section className="container mx-auto px-6 py-20">
         <div className="text-center max-w-4xl mx-auto">
+          <div className="flex justify-center mb-8">
+            <img src={logo} alt="ResKillPlus" className="h-32 w-auto" />
+          </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
             Transforme sua carreira com <span className="text-gray-600 dark:text-gray-400">ResKillPlus</span>
           </h1>

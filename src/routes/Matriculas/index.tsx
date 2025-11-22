@@ -12,11 +12,11 @@ const Matriculas = () => {
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<Matricula>({
-    cpfUsuario: '',
-    nomeCurso: '',
-    dataMatricula: '',
-    status: 'ATIVA',
-    progresso: 0,
+    cpf_usuario: '',
+    nome_curso: '',
+    data_matricula: '',
+    status_matricula: 'ATIVA',
+    progresso_curso: 0,
   });
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Matriculas = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ cpfUsuario: '', nomeCurso: '', dataMatricula: '', status: 'ATIVA', progresso: 0 });
+      setFormData({ cpf_usuario: '', nome_curso: '', data_matricula: '', status_matricula: 'ATIVA', progresso_curso: 0 });
       carregarMatriculas();
     } catch (error) {
       console.error('Erro ao salvar matrícula:', error);
@@ -92,7 +92,7 @@ const Matriculas = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Matrículas
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpfUsuario: '', nomeCurso: '', dataMatricula: '', status: 'ATIVA', progresso: 0 }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', data_matricula: '', status_matricula: 'ATIVA', progresso_curso: 0 }); }}>
           {showForm ? 'Cancelar' : 'Nova Matrícula'}
         </Button>
       </div>
@@ -105,8 +105,8 @@ const Matriculas = () => {
           <form onSubmit={handleSubmit}>
             <Input
               label="CPF do Usuário"
-              name="cpfUsuario"
-              value={formData.cpfUsuario}
+              name="cpf_usuario"
+              value={formData.cpf_usuario}
               onChange={handleChange}
               required
               disabled={editMode}
@@ -114,8 +114,8 @@ const Matriculas = () => {
             />
             <Input
               label="Nome do Curso"
-              name="nomeCurso"
-              value={formData.nomeCurso}
+              name="nome_curso"
+              value={formData.nome_curso}
               onChange={handleChange}
               required
               disabled={editMode}
@@ -123,8 +123,8 @@ const Matriculas = () => {
             <Input
               label="Data da Matrícula"
               type="date"
-              name="dataMatricula"
-              value={formData.dataMatricula}
+              name="data_matricula"
+              value={formData.data_matricula}
               onChange={handleChange}
               required
             />
@@ -133,8 +133,8 @@ const Matriculas = () => {
                 Status <span className="text-red-500">*</span>
               </label>
               <select
-                name="status"
-                value={formData.status}
+                name="status_matricula"
+                value={formData.status_matricula}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
@@ -147,8 +147,8 @@ const Matriculas = () => {
             <Input
               label="Progresso (%)"
               type="number"
-              name="progresso"
-              value={formData.progresso?.toString() || '0'}
+              name="progresso_curso"
+              value={formData.progresso_curso?.toString() || '0'}
               onChange={handleChange}
               placeholder="0-100"
             />
@@ -161,19 +161,19 @@ const Matriculas = () => {
         {matriculas.map((matricula, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {matricula.nomeCurso}
+              {matricula.nome_curso}
             </h3>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>CPF: {matricula.cpfUsuario}</p>
-              <p>Data: {new Date(matricula.dataMatricula).toLocaleDateString()}</p>
-              <p>Status: <span className={`font-semibold ${matricula.status === 'ATIVA' ? 'text-green-600' : matricula.status === 'CONCLUIDA' ? 'text-blue-600' : 'text-red-600'}`}>{matricula.status}</span></p>
-              {matricula.progresso !== undefined && <p>Progresso: {matricula.progresso}%</p>}
+              <p>CPF: {matricula.cpf_usuario}</p>
+              <p>Data: {new Date(matricula.data_matricula).toLocaleDateString()}</p>
+              <p>Status: <span className={`font-semibold ${matricula.status_matricula === 'ATIVA' ? 'text-green-600' : matricula.status_matricula === 'CONCLUIDA' ? 'text-blue-600' : 'text-red-600'}`}>{matricula.status_matricula}</span></p>
+              {matricula.progresso_curso !== undefined && <p>Progresso: {matricula.progresso_curso}%</p>}
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(matricula)} variant="secondary">
                 Editar
               </Button>
-              <Button onClick={() => handleDelete(matricula.cpfUsuario, matricula.nomeCurso)} variant="danger">
+              <Button onClick={() => handleDelete(matricula.cpf_usuario, matricula.nome_curso)} variant="danger">
                 Excluir
               </Button>
             </div>
