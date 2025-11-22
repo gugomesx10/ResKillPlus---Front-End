@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -16,33 +16,41 @@ import Login from './routes/Login';
 import Perfil from './routes/Perfil';
 import MeusCursos from './routes/MeusCursos';
 import Configuracoes from './routes/Configuracoes';
+import Callback from './routes/Callback';
+
+function ProtectedRoute({ children }: { children: React.ReactElement }) {
+  const isAuthenticated = localStorage.getItem('accessToken');
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
 
 function AppContent() {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
+  const isCallbackPage = location.pathname.startsWith('/callback');
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950">
-      {!isLoginPage && <Header />}
+      {!isLoginPage && !isCallbackPage && <Header />}
       <main className="flex-1">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sobre" element={<Sobre />} />
-          <Route path="/integrantes" element={<Integrantes />} />
-          <Route path="/contato" element={<Contato />} />
-          <Route path="/cursos" element={<Cursos />} />
-          <Route path="/usuarios" element={<Usuarios />} />
-          <Route path="/habilidades" element={<Habilidades />} />
-          <Route path="/matriculas" element={<Matriculas />} />
-          <Route path="/recomendacoes" element={<Recomendacoes />} />
-          <Route path="/pagamentos" element={<Pagamentos />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/meus-cursos" element={<MeusCursos />} />
-          <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/callback/:provider" element={<Callback />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/sobre" element={<ProtectedRoute><Sobre /></ProtectedRoute>} />
+          <Route path="/integrantes" element={<ProtectedRoute><Integrantes /></ProtectedRoute>} />
+          <Route path="/contato" element={<ProtectedRoute><Contato /></ProtectedRoute>} />
+          <Route path="/cursos" element={<ProtectedRoute><Cursos /></ProtectedRoute>} />
+          <Route path="/usuarios" element={<ProtectedRoute><Usuarios /></ProtectedRoute>} />
+          <Route path="/habilidades" element={<ProtectedRoute><Habilidades /></ProtectedRoute>} />
+          <Route path="/matriculas" element={<ProtectedRoute><Matriculas /></ProtectedRoute>} />
+          <Route path="/recomendacoes" element={<ProtectedRoute><Recomendacoes /></ProtectedRoute>} />
+          <Route path="/pagamentos" element={<ProtectedRoute><Pagamentos /></ProtectedRoute>} />
+          <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+          <Route path="/meus-cursos" element={<ProtectedRoute><MeusCursos /></ProtectedRoute>} />
+          <Route path="/configuracoes" element={<ProtectedRoute><Configuracoes /></ProtectedRoute>} />
         </Routes>
       </main>
-      {!isLoginPage && <Footer />}
+      {!isLoginPage && !isCallbackPage && <Footer />}
     </div>
   );
 }

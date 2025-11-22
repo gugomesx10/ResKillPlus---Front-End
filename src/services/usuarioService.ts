@@ -6,19 +6,19 @@ export const usuarioService = {
     return api.post('/usuario', usuario);
   },
 
-  buscarPorCpf: (cpf: string) => {
-    return api.get(`/usuario/buscar/${cpf}`);
+  buscarPorCpf: (cpf_usuario: string) => {
+    return api.get(`/usuario/buscar/${cpf_usuario}`);
   },
 
-  validar: (cpf: string, senha: string) => {
-    return api.get(`/usuario/validar/${cpf}/${senha}`);
+  validar: (cpf_usuario: string, senha: string) => {
+    return api.get(`/usuario/validar/${cpf_usuario}/${senha}`);
   },
 
   atualizar: (usuario: Usuario) => {
     return api.put('/usuario', usuario);
   },
 
-  excluir: (cpf: string) => {
-    return api.delete(`/usuario/excluir/${cpf}`);
+  excluir: (cpf_usuario: string) => {
+    return api.delete(`/usuario/excluir/${cpf_usuario}`);
   },
 };

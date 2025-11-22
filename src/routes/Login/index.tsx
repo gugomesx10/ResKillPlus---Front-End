@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+import logo from '../../assets/ResKillPlus.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,8 +43,9 @@ const Login = () => {
     }
 
     try {
-      localStorage.setItem('accessToken', 'mock-token');
-      localStorage.setItem('user', JSON.stringify({ name: 'Usuário', email }));
+      const token = `temp-token-${Date.now()}`;
+      localStorage.setItem('accessToken', token);
+      localStorage.setItem('user', JSON.stringify({ name: email.split('@')[0], email }));
       navigate('/');
     } catch (err) {
       setError('Email ou senha inválidos');
@@ -68,8 +70,10 @@ const Login = () => {
       setError('A senha deve ter pelo menos 6 caracteres');
       return;
     }
+    
     try {
-      localStorage.setItem('accessToken', 'mock-token');
+      const token = `temp-token-${Date.now()}`;
+      localStorage.setItem('accessToken', token);
       localStorage.setItem('user', JSON.stringify({ name, email }));
       navigate('/');
     } catch (err) {
@@ -82,9 +86,12 @@ const Login = () => {
       {/* Lado Esquerdo - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 to-gray-800 dark:from-white dark:to-gray-100 p-12 flex-col justify-between">
         <div>
-          <h1 className="text-5xl font-bold text-white dark:text-gray-900 mb-4">
-            ResKillPlus
-          </h1>
+          <div className="flex items-center gap-4 mb-6">
+            <img src={logo} alt="ResKillPlus" className="h-16 w-auto" />
+            <h1 className="text-5xl font-bold text-white dark:text-gray-900">
+              ResKillPlus
+            </h1>
+          </div>
           <p className="text-xl text-gray-300 dark:text-gray-600 leading-relaxed">
             A plataforma que transforma carreiras através da educação continuada e requalificação profissional.
           </p>
@@ -127,6 +134,9 @@ const Login = () => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8 lg:hidden">
+            <div className="flex justify-center mb-4">
+              <img src={logo} alt="ResKillPlus" className="h-20 w-auto" />
+            </div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               ResKillPlus
             </h1>

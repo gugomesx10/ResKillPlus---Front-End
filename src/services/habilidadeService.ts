@@ -6,8 +6,8 @@ export const habilidadeService = {
     return api.post('/habilidade', habilidade);
   },
 
-  buscarPorNome: (nome: string) => {
-    return api.get(`/habilidade/buscar/${nome}`);
+  buscarPorNome: (nome_habilidade: string) => {
+    return api.get(`/habilidade/buscar/${nome_habilidade}`);
   },
 
   listarTodas: () => {
@@ -18,7 +18,7 @@ export const habilidadeService = {
     return api.put('/habilidade', habilidade);
   },
 
-  excluir: (nome: string) => {
-    return api.delete(`/habilidade/excluir/${nome}`);
+  excluir: (nome_habilidade: string) => {
+    return api.delete(`/habilidade/excluir/${nome_habilidade}`);
   },
 };

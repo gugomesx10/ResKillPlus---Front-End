@@ -1,56 +1,56 @@
 export interface Usuario {
-  cpf: string;
-  nome: string;
-  email: string;
+  cpf_usuario: string;
+  nome_usuario: string;
+  mail_usuario: string;
   senha?: string;
-  telefone?: string;
-  dataNascimento?: string;
+  dt_nasc?: string;
+  end_usuario?: string;
 }
 
 export interface Curso {
-  nome: string;
-  descricao: string;
-  cargaHoraria: number;
+  nome_curso: string;
+  descricao_curso: string;
+  carga_horaria: number;
   categoria: string;
-  nivel?: string;
 }
 
 export interface Habilidade {
-  nome: string;
-  descricao: string;
-  categoria: string;
-  nivelDificuldade?: string;
+  nome_habilidade: string;
+  descricao_habilidade: string;
+  nivel: string;
+  area: string;
 }
 
 export interface Matricula {
-  cpfUsuario: string;
-  nomeCurso: string;
-  dataMatricula: string;
+  cpf_usuario: string;
+  nome_curso: string;
+  dt_matricula: string;
   status: string;
-  progresso?: number;
 }
 
 export interface Recomendacao {
   id?: number;
-  cpf: string;
-  nomeCurso: string;
+  cpf_usuario: string;
+  nome_curso: string;
   motivo: string;
-  dataRecomendacao?: string;
+  data_recomendacao?: string;
 }
 
 export interface Pagamento {
   id?: number;
-  cpfUsuario: string;
-  nomeCurso: string;
-  valor: number;
-  metodoPagamento: string;
+  corporacao_id: number;
+  user_id: number;
+  quantia: number;
   status: string;
-  dataPagamento?: string;
+  dt_criacao?: string;
 }
 
 export interface AuthUser {
-  nome: string;
-  email: string;
+  nome?: string;
+  email?: string;
   avatar?: string;
-  accessToken: string;
+  avatarUrl?: string;
+  accessToken?: string;
+  provider?: string;
+  providerId?: string;
 }

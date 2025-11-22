@@ -11,12 +11,13 @@ const Cursos = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Curso>({
-    nome: '',
-    descricao: '',
-    cargaHoraria: 0,
+    nome_curso: '',
+    descricao_curso: '',
+    carga_horaria: 0,
     categoria: '',
-    nivel: '',
   });
 
   useEffect(() => {
@@ -25,11 +26,15 @@ const Cursos = () => {
 
   const carregarCursos = async () => {
     setLoading(true);
+    setError('');
     try {
       const data = await cursoService.listarTodos();
-      setCursos(data);
-    } catch (error) {
+      setCursos(Array.isArray(data) ? data : []);
+    } catch (error: any) {
       console.error('Erro ao carregar cursos:', error);
+      if (error.message && !error.message.includes('Failed to fetch')) {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -45,19 +50,24 @@ const Cursos = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    setSuccess('');
     try {
       if (editMode) {
         await cursoService.atualizar(formData);
+        setSuccess('Curso atualizado com sucesso!');
       } else {
         await cursoService.criar(formData);
+        setSuccess('Curso cadastrado com sucesso!');
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' });
-      carregarCursos();
-    } catch (error) {
+      setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria: '' });
+      await carregarCursos();
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error: any) {
       console.error('Erro ao salvar curso:', error);
-      alert('Erro ao salvar curso');
+      setError(error.message || 'Erro ao salvar curso. Verifique sua conexão e tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -72,12 +82,16 @@ const Cursos = () => {
   const handleDelete = async (nome: string) => {
     if (confirm('Tem certeza que deseja excluir este curso?')) {
       setLoading(true);
+      setError('');
+      setSuccess('');
       try {
         await cursoService.excluir(nome);
-        carregarCursos();
-      } catch (error) {
+        setSuccess('Curso excluído com sucesso!');
+        await carregarCursos();
+        setTimeout(() => setSuccess(''), 3000);
+      } catch (error: any) {
         console.error('Erro ao excluir curso:', error);
-        alert('Erro ao excluir curso');
+        setError(error.message || 'Erro ao excluir curso. Tente novamente.');
       } finally {
         setLoading(false);
       }
@@ -96,10 +110,22 @@ const Cursos = () => {
             </h1>
             <p className="text-gray-600 dark:text-gray-400">Cadastre e gerencie os cursos da plataforma</p>
           </div>
-          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome: '', descricao: '', cargaHoraria: 0, categoria: '', nivel: '' }); }}>
+          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria: '' }); setError(''); setSuccess(''); }}>
             {showForm ? '✕ Cancelar' : '+ Novo Curso'}
           </Button>
         </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400">❌ {error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <p className="text-sm text-green-600 dark:text-green-400">✅ {success}</p>
+          </div>
+        )}
 
       {showForm && (
         <Card className="mb-8">
@@ -109,8 +135,8 @@ const Cursos = () => {
           <form onSubmit={handleSubmit}>
             <Input
               label="Nome do Curso"
-              name="nome"
-              value={formData.nome}
+              name="nome_curso"
+              value={formData.nome_curso}
               onChange={handleChange}
               required
               disabled={editMode}
@@ -120,8 +146,8 @@ const Cursos = () => {
                 Descrição <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="descricao"
-                value={formData.descricao}
+                name="descricao_curso"
+                value={formData.descricao_curso}
                 onChange={handleChange}
                 required
                 rows={4}
@@ -131,8 +157,8 @@ const Cursos = () => {
             <Input
               label="Carga Horária"
               type="number"
-              name="cargaHoraria"
-              value={formData.cargaHoraria.toString()}
+              name="carga_horaria"
+              value={formData.carga_horaria.toString()}
               onChange={handleChange}
               required
             />
@@ -143,12 +169,6 @@ const Cursos = () => {
               onChange={handleChange}
               required
             />
-            <Input
-              label="Nível"
-              name="nivel"
-              value={formData.nivel || ''}
-              onChange={handleChange}
-            />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
           </form>
         </Card>
@@ -158,21 +178,20 @@ const Cursos = () => {
         {cursos.map((curso, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {curso.nome}
+              {curso.nome_curso}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
-              {curso.descricao}
+              {curso.descricao_curso}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 space-y-1">
-              <p>⏱️ Carga Horária: {curso.cargaHoraria}h</p>
+              <p>⏱️ Carga Horária: {curso.carga_horaria}h</p>
               <p>📚 Categoria: {curso.categoria}</p>
-              {curso.nivel && <p>📊 Nível: {curso.nivel}</p>}
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(curso)} variant="secondary">
                 ✏️ Editar
               </Button>
-              <Button onClick={() => handleDelete(curso.nome)} variant="danger">
+              <Button onClick={() => handleDelete(curso.nome_curso)} variant="danger">
                 🗑️ Excluir
               </Button>
             </div>

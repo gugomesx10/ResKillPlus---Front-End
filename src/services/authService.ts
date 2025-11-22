@@ -4,19 +4,23 @@ const API_BASE_URL = 'https://reskillplus-java.onrender.com';
 
 export const authService = {
   loginGitHub: () => {
-    window.location.href = `${API_BASE_URL}/auth/github/login`;
+    window.location.href = `${API_BASE_URL}/auth/github/login?prompt=select_account`;
   },
 
   loginGoogle: () => {
-    window.location.href = `${API_BASE_URL}/auth/google/login`;
+    window.location.href = `${API_BASE_URL}/auth/google/login?prompt=select_account`;
   },
 
   loginMicrosoft: () => {
-    window.location.href = `${API_BASE_URL}/auth/microsoft/login`;
+    window.location.href = `${API_BASE_URL}/auth/microsoft/login?prompt=select_account`;
   },
 
-  handleCallback: async (provider: 'github' | 'google' | 'microsoft') => {
-    return api.get(`/auth/${provider}/callback${window.location.search}`);
+  handleCallback: async (provider: 'github' | 'google' | 'microsoft', code: string) => {
+    const redirectUri = `http://localhost:5173/callback/${provider}`;
+    return api.post(`/auth/${provider}`, {
+      code: code,
+      redirectUri: redirectUri
+    });
   },
 
   logout: () => {

@@ -11,12 +11,11 @@ const Pagamentos = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Pagamento>({
-    cpfUsuario: '',
-    nomeCurso: '',
-    valor: 0,
-    metodoPagamento: '',
+    corporacao_id: 0,
+    user_id: 0,
+    quantia: 0,
     status: 'PENDENTE',
-    dataPagamento: '',
+    dt_criacao: '',
   });
 
   useEffect(() => {
@@ -48,11 +47,12 @@ const Pagamentos = () => {
     try {
       await pagamentoService.criar(formData);
       setShowForm(false);
-      setFormData({ cpfUsuario: '', nomeCurso: '', valor: 0, metodoPagamento: '', status: 'PENDENTE', dataPagamento: '' });
-      carregarPagamentos();
-    } catch (error) {
+      setFormData({ corporacao_id: 0, user_id: 0, quantia: 0, status: 'PENDENTE', dt_criacao: '' });
+      await carregarPagamentos();
+      alert('✅ Pagamento cadastrado com sucesso!');
+    } catch (error: any) {
       console.error('Erro ao salvar pagamento:', error);
-      alert('Erro ao salvar pagamento');
+      alert('❌ ' + (error.message || 'Erro ao salvar pagamento'));
     } finally {
       setLoading(false);
     }
@@ -62,10 +62,11 @@ const Pagamentos = () => {
     setLoading(true);
     try {
       await pagamentoService.atualizarStatus(id, novoStatus);
-      carregarPagamentos();
-    } catch (error) {
+      await carregarPagamentos();
+      alert('✅ Status atualizado com sucesso!');
+    } catch (error: any) {
       console.error('Erro ao atualizar status:', error);
-      alert('Erro ao atualizar status');
+      alert('❌ ' + (error.message || 'Erro ao atualizar status'));
     } finally {
       setLoading(false);
     }
@@ -76,10 +77,11 @@ const Pagamentos = () => {
       setLoading(true);
       try {
         await pagamentoService.excluir(id);
-        carregarPagamentos();
-      } catch (error) {
+        await carregarPagamentos();
+        alert('✅ Pagamento excluído com sucesso!');
+      } catch (error: any) {
         console.error('Erro ao excluir pagamento:', error);
-        alert('Erro ao excluir pagamento');
+        alert('❌ ' + (error.message || 'Erro ao excluir pagamento'));
       } finally {
         setLoading(false);
       }
@@ -94,7 +96,7 @@ const Pagamentos = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Pagamentos
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setFormData({ cpfUsuario: '', nomeCurso: '', valor: 0, metodoPagamento: '', status: 'PENDENTE', dataPagamento: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setFormData({ corporacao_id: 0, user_id: 0, quantia: 0, status: 'PENDENTE', dt_criacao: '' }); }}>
           {showForm ? 'Cancelar' : 'Novo Pagamento'}
         </Button>
       </div>
@@ -106,47 +108,30 @@ const Pagamentos = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             <Input
-              label="CPF do Usuário"
-              name="cpfUsuario"
-              value={formData.cpfUsuario}
-              onChange={handleChange}
-              required
-              placeholder="000.000.000-00"
-            />
-            <Input
-              label="Nome do Curso"
-              name="nomeCurso"
-              value={formData.nomeCurso}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Valor (R$)"
+              label="ID da Corporação"
               type="number"
-              name="valor"
-              value={formData.valor.toString()}
+              name="corporacao_id"
+              value={formData.corporacao_id.toString()}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="ID do Usuário"
+              type="number"
+              name="user_id"
+              value={formData.user_id.toString()}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Quantia (R$)"
+              type="number"
+              name="quantia"
+              value={formData.quantia.toString()}
               onChange={handleChange}
               required
               placeholder="0.00"
             />
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Método de Pagamento <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="metodoPagamento"
-                value={formData.metodoPagamento}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              >
-                <option value="">Selecione</option>
-                <option value="CARTAO_CREDITO">Cartão de Crédito</option>
-                <option value="CARTAO_DEBITO">Cartão de Débito</option>
-                <option value="PIX">PIX</option>
-                <option value="BOLETO">Boleto</option>
-              </select>
-            </div>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Status <span className="text-red-500">*</span>
@@ -166,8 +151,8 @@ const Pagamentos = () => {
             <Input
               label="Data do Pagamento"
               type="date"
-              name="dataPagamento"
-              value={formData.dataPagamento || ''}
+              name="dt_criacao"
+              value={formData.dt_criacao || ''}
               onChange={handleChange}
             />
             <Button type="submit">Cadastrar</Button>
@@ -179,15 +164,15 @@ const Pagamentos = () => {
         {pagamentos.map((pagamento, index) => (
           <Card key={index}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {pagamento.nomeCurso}
+              Pagamento #{pagamento.id}
             </h3>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>CPF: {pagamento.cpfUsuario}</p>
-              <p className="text-lg font-bold text-green-600">R$ {pagamento.valor.toFixed(2)}</p>
-              <p>Método: {pagamento.metodoPagamento}</p>
+              <p>Corporação ID: {pagamento.corporacao_id}</p>
+              <p>Usuário ID: {pagamento.user_id}</p>
+              <p className="text-lg font-bold text-green-600">R$ {(pagamento.quantia || 0).toFixed(2)}</p>
               <p>Status: <span className={`font-semibold ${pagamento.status === 'APROVADO' ? 'text-green-600' : pagamento.status === 'PENDENTE' ? 'text-yellow-600' : 'text-red-600'}`}>{pagamento.status}</span></p>
-              {pagamento.dataPagamento && (
-                <p>Data: {new Date(pagamento.dataPagamento).toLocaleDateString()}</p>
+              {pagamento.dt_criacao && (
+                <p>Data: {new Date(pagamento.dt_criacao).toLocaleDateString()}</p>
               )}
             </div>
             {pagamento.id && (

@@ -6,8 +6,8 @@ export const recomendacaoService = {
     return api.post('/recomendacao', recomendacao);
   },
 
-  buscarPorCpf: (cpf: string) => {
-    return api.get(`/recomendacao/buscar/${cpf}`);
+  buscarPorCpf: (cpf_usuario: string) => {
+    return api.get(`/recomendacao/buscar/${cpf_usuario}`);
   },
 
   listarTodas: () => {
