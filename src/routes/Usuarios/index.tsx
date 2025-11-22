@@ -16,10 +16,10 @@ const Usuarios = () => {
   const [formData, setFormData] = useState<Usuario>({
     cpf_usuario: '',
     nome_usuario: '',
-    email_usuario: '',
-    senha_usuario: '',
-    telefone_usuario: '',
-    data_nascimento: '',
+    mail_usuario: '',
+    senha: '',
+    dt_nasc: '',
+    end_usuario: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ const Usuarios = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ cpf_usuario: '', nome_usuario: '', email_usuario: '', senha_usuario: '', telefone_usuario: '', data_nascimento: '' });
+      setFormData({ cpf_usuario: '', nome_usuario: '', mail_usuario: '', senha: '', dt_nasc: '', end_usuario: '' });
       setTimeout(() => setSuccess(''), 3000);
     } catch (error: any) {
       console.error('Erro ao salvar usuário:', error);
@@ -85,7 +85,7 @@ const Usuarios = () => {
       setSuccess('');
       try {
         await usuarioService.excluir(cpf);
-        setFormData({ cpf_usuario: '', nome_usuario: '', email_usuario: '', senha_usuario: '', telefone_usuario: '', data_nascimento: '' });
+        setFormData({ cpf_usuario: '', nome_usuario: '', mail_usuario: '', senha: '', dt_nasc: '', end_usuario: '' });
         setEditMode(false);
         setShowForm(false);
         setBuscaCpf('');
@@ -111,7 +111,7 @@ const Usuarios = () => {
         <Button onClick={() => { 
           setShowForm(!showForm); 
           setEditMode(false); 
-          setFormData({ cpf_usuario: '', nome_usuario: '', email_usuario: '', senha_usuario: '', telefone_usuario: '', data_nascimento: '' });
+          setFormData({ cpf_usuario: '', nome_usuario: '', mail_usuario: '', senha: '', dt_nasc: '', end_usuario: '' });
           setError('');
           setSuccess('');
         }}>
@@ -156,31 +156,31 @@ const Usuarios = () => {
             <Input
               label="Email"
               type="email"
-              name="email_usuario"
-              value={formData.email_usuario}
+              name="mail_usuario"
+              value={formData.mail_usuario}
               onChange={handleChange}
               required
             />
             <Input
               label="Senha"
               type="password"
-              name="senha_usuario"
-              value={formData.senha_usuario || ''}
+              name="senha"
+              value={formData.senha || ''}
               onChange={handleChange}
               required={!editMode}
             />
             <Input
-              label="Telefone"
-              name="telefone_usuario"
-              value={formData.telefone_usuario || ''}
+              label="Endereço"
+              name="end_usuario"
+              value={formData.end_usuario || ''}
               onChange={handleChange}
-              placeholder="(00) 00000-0000"
+              placeholder="Rua, número, bairro"
             />
             <Input
               label="Data de Nascimento"
               type="date"
-              name="data_nascimento"
-              value={formData.data_nascimento || ''}
+              name="dt_nasc"
+              value={formData.dt_nasc || ''}
               onChange={handleChange}
             />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>

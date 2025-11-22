@@ -10,8 +10,8 @@ export const usuarioService = {
     return api.get(`/usuario/buscar/${cpf_usuario}`);
   },
 
-  validar: (cpf_usuario: string, senha_usuario: string) => {
-    return api.get(`/usuario/validar/${cpf_usuario}/${senha_usuario}`);
+  validar: (cpf_usuario: string, senha: string) => {
+    return api.get(`/usuario/validar/${cpf_usuario}/${senha}`);
   },
 
   atualizar: (usuario: Usuario) => {

@@ -14,8 +14,8 @@ const Habilidades = () => {
   const [formData, setFormData] = useState<Habilidade>({
     nome_habilidade: '',
     descricao_habilidade: '',
-    categoria_habilidade: '',
-    nivel_dificuldade: '',
+    nivel: '',
+    area: '',
   });
 
   useEffect(() => {
@@ -47,16 +47,18 @@ const Habilidades = () => {
     try {
       if (editMode) {
         await habilidadeService.atualizar(formData);
+        alert('✅ Habilidade atualizada com sucesso!');
       } else {
         await habilidadeService.criar(formData);
+        alert('✅ Habilidade cadastrada com sucesso!');
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ nome_habilidade: '', descricao_habilidade: '', categoria_habilidade: '', nivel_dificuldade: '' });
-      carregarHabilidades();
-    } catch (error) {
+      setFormData({ nome_habilidade: '', descricao_habilidade: '', nivel: '', area: '' });
+      await carregarHabilidades();
+    } catch (error: any) {
       console.error('Erro ao salvar habilidade:', error);
-      alert('Erro ao salvar habilidade');
+      alert('❌ ' + (error.message || 'Erro ao salvar habilidade'));
     } finally {
       setLoading(false);
     }
@@ -73,10 +75,11 @@ const Habilidades = () => {
       setLoading(true);
       try {
         await habilidadeService.excluir(nome);
-        carregarHabilidades();
-      } catch (error) {
+        await carregarHabilidades();
+        alert('✅ Habilidade excluída com sucesso!');
+      } catch (error: any) {
         console.error('Erro ao excluir habilidade:', error);
-        alert('Erro ao excluir habilidade');
+        alert('❌ ' + (error.message || 'Erro ao excluir habilidade'));
       } finally {
         setLoading(false);
       }
@@ -91,7 +94,7 @@ const Habilidades = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Habilidades
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_habilidade: '', descricao_habilidade: '', categoria_habilidade: '', nivel_dificuldade: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_habilidade: '', descricao_habilidade: '', nivel: '', area: '' }); }}>
           {showForm ? 'Cancelar' : 'Nova Habilidade'}
         </Button>
       </div>
@@ -124,17 +127,18 @@ const Habilidades = () => {
               />
             </div>
             <Input
-              label="Categoria"
-              name="categoria_habilidade"
-              value={formData.categoria_habilidade}
+              label="Área"
+              name="area"
+              value={formData.area}
               onChange={handleChange}
               required
             />
             <Input
-              label="Nível de Dificuldade"
-              name="nivel_dificuldade"
-              value={formData.nivel_dificuldade || ''}
+              label="Nível"
+              name="nivel"
+              value={formData.nivel}
               onChange={handleChange}
+              required
               placeholder="Básico, Intermediário ou Avançado"
             />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
@@ -152,8 +156,8 @@ const Habilidades = () => {
               {habilidade.descricao_habilidade}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>Categoria: {habilidade.categoria_habilidade}</p>
-              {habilidade.nivel_dificuldade && <p>Nível: {habilidade.nivel_dificuldade}</p>}
+              <p>Área: {habilidade.area}</p>
+              <p>Nível: {habilidade.nivel}</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(habilidade)} variant="secondary">

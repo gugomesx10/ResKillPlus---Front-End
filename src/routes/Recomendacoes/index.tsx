@@ -14,7 +14,7 @@ const Recomendacoes = () => {
   const [formData, setFormData] = useState<Recomendacao>({
     cpf_usuario: '',
     nome_curso: '',
-    motivo_recomendacao: '',
+    motivo: '',
     data_recomendacao: '',
   });
 
@@ -47,16 +47,18 @@ const Recomendacoes = () => {
     try {
       if (editMode) {
         await recomendacaoService.atualizar(formData);
+        alert('✅ Recomendação atualizada com sucesso!');
       } else {
         await recomendacaoService.criar(formData);
+        alert('✅ Recomendação cadastrada com sucesso!');
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ cpf_usuario: '', nome_curso: '', motivo_recomendacao: '', data_recomendacao: '' });
-      carregarRecomendacoes();
-    } catch (error) {
+      setFormData({ cpf_usuario: '', nome_curso: '', motivo: '', data_recomendacao: '' });
+      await carregarRecomendacoes();
+    } catch (error: any) {
       console.error('Erro ao salvar recomendação:', error);
-      alert('Erro ao salvar recomendação');
+      alert('❌ ' + (error.message || 'Erro ao salvar recomendação'));
     } finally {
       setLoading(false);
     }
@@ -73,10 +75,11 @@ const Recomendacoes = () => {
       setLoading(true);
       try {
         await recomendacaoService.excluir(id);
-        carregarRecomendacoes();
-      } catch (error) {
+        await carregarRecomendacoes();
+        alert('✅ Recomendação excluída com sucesso!');
+      } catch (error: any) {
         console.error('Erro ao excluir recomendação:', error);
-        alert('Erro ao excluir recomendação');
+        alert('❌ ' + (error.message || 'Erro ao excluir recomendação'));
       } finally {
         setLoading(false);
       }
@@ -91,7 +94,7 @@ const Recomendacoes = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Recomendações
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', motivo_recomendacao: '', data_recomendacao: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', motivo: '', data_recomendacao: '' }); }}>
           {showForm ? 'Cancelar' : 'Nova Recomendação'}
         </Button>
       </div>
@@ -122,8 +125,8 @@ const Recomendacoes = () => {
                 Motivo da Recomendação <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="motivo_recomendacao"
-                value={formData.motivo_recomendacao}
+                name="motivo"
+                value={formData.motivo}
                 onChange={handleChange}
                 required
                 rows={4}
@@ -149,7 +152,7 @@ const Recomendacoes = () => {
               {recomendacao.nome_curso}
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-3">
-              {recomendacao.motivo_recomendacao}
+              {recomendacao.motivo}
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               <p>CPF: {recomendacao.cpf_usuario}</p>

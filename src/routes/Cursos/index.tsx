@@ -17,8 +17,7 @@ const Cursos = () => {
     nome_curso: '',
     descricao_curso: '',
     carga_horaria: 0,
-    categoria_curso: '',
-    nivel_curso: '',
+    categoria: '',
   });
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const Cursos = () => {
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria_curso: '', nivel_curso: '' });
+      setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria: '' });
       await carregarCursos();
       setTimeout(() => setSuccess(''), 3000);
     } catch (error: any) {
@@ -111,7 +110,7 @@ const Cursos = () => {
             </h1>
             <p className="text-gray-600 dark:text-gray-400">Cadastre e gerencie os cursos da plataforma</p>
           </div>
-          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria_curso: '', nivel_curso: '' }); setError(''); setSuccess(''); }}>
+          <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ nome_curso: '', descricao_curso: '', carga_horaria: 0, categoria: '' }); setError(''); setSuccess(''); }}>
             {showForm ? '✕ Cancelar' : '+ Novo Curso'}
           </Button>
         </div>
@@ -165,16 +164,10 @@ const Cursos = () => {
             />
             <Input
               label="Categoria"
-              name="categoria_curso"
-              value={formData.categoria_curso}
+              name="categoria"
+              value={formData.categoria}
               onChange={handleChange}
               required
-            />
-            <Input
-              label="Nível"
-              name="nivel_curso"
-              value={formData.nivel_curso || ''}
-              onChange={handleChange}
             />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
           </form>
@@ -192,8 +185,7 @@ const Cursos = () => {
             </p>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 space-y-1">
               <p>⏱️ Carga Horária: {curso.carga_horaria}h</p>
-              <p>📚 Categoria: {curso.categoria_curso}</p>
-              {curso.nivel_curso && <p>📊 Nível: {curso.nivel_curso}</p>}
+              <p>📚 Categoria: {curso.categoria}</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(curso)} variant="secondary">

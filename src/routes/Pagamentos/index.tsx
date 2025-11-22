@@ -11,11 +11,11 @@ const Pagamentos = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Pagamento>({
-    corporacaoId: 0,
-    userId: 0,
+    corporacao_id: 0,
+    user_id: 0,
     quantia: 0,
     status: 'PENDENTE',
-    dataPagamento: '',
+    dt_criacao: '',
   });
 
   useEffect(() => {
@@ -46,13 +46,13 @@ const Pagamentos = () => {
     setLoading(true);
     try {
       await pagamentoService.criar(formData);
-      alert('Pagamento cadastrado com sucesso!');
       setShowForm(false);
-      setFormData({ corporacaoId: 0, userId: 0, quantia: 0, status: 'PENDENTE', dataPagamento: '' });
-      carregarPagamentos();
+      setFormData({ corporacao_id: 0, user_id: 0, quantia: 0, status: 'PENDENTE', dt_criacao: '' });
+      await carregarPagamentos();
+      alert('✅ Pagamento cadastrado com sucesso!');
     } catch (error: any) {
       console.error('Erro ao salvar pagamento:', error);
-      alert(`Erro ao salvar pagamento: ${error.message || 'Verifique se a API está funcionando'}`);
+      alert('❌ ' + (error.message || 'Erro ao salvar pagamento'));
     } finally {
       setLoading(false);
     }
@@ -62,10 +62,11 @@ const Pagamentos = () => {
     setLoading(true);
     try {
       await pagamentoService.atualizarStatus(id, novoStatus);
-      carregarPagamentos();
-    } catch (error) {
+      await carregarPagamentos();
+      alert('✅ Status atualizado com sucesso!');
+    } catch (error: any) {
       console.error('Erro ao atualizar status:', error);
-      alert('Erro ao atualizar status');
+      alert('❌ ' + (error.message || 'Erro ao atualizar status'));
     } finally {
       setLoading(false);
     }
@@ -76,10 +77,11 @@ const Pagamentos = () => {
       setLoading(true);
       try {
         await pagamentoService.excluir(id);
-        carregarPagamentos();
-      } catch (error) {
+        await carregarPagamentos();
+        alert('✅ Pagamento excluído com sucesso!');
+      } catch (error: any) {
         console.error('Erro ao excluir pagamento:', error);
-        alert('Erro ao excluir pagamento');
+        alert('❌ ' + (error.message || 'Erro ao excluir pagamento'));
       } finally {
         setLoading(false);
       }
@@ -94,7 +96,7 @@ const Pagamentos = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Pagamentos
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setFormData({ corporacaoId: 0, userId: 0, quantia: 0, status: 'PENDENTE', dataPagamento: '' }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setFormData({ corporacao_id: 0, user_id: 0, quantia: 0, status: 'PENDENTE', dt_criacao: '' }); }}>
           {showForm ? 'Cancelar' : 'Novo Pagamento'}
         </Button>
       </div>
@@ -106,18 +108,18 @@ const Pagamentos = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             <Input
-              label="Corporação ID"
+              label="ID da Corporação"
               type="number"
-              name="corporacaoId"
-              value={formData.corporacaoId.toString()}
+              name="corporacao_id"
+              value={formData.corporacao_id.toString()}
               onChange={handleChange}
               required
             />
             <Input
-              label="Usuário ID"
+              label="ID do Usuário"
               type="number"
-              name="userId"
-              value={formData.userId.toString()}
+              name="user_id"
+              value={formData.user_id.toString()}
               onChange={handleChange}
               required
             />
@@ -149,8 +151,8 @@ const Pagamentos = () => {
             <Input
               label="Data do Pagamento"
               type="date"
-              name="dataPagamento"
-              value={formData.dataPagamento || ''}
+              name="dt_criacao"
+              value={formData.dt_criacao || ''}
               onChange={handleChange}
             />
             <Button type="submit">Cadastrar</Button>
@@ -165,12 +167,12 @@ const Pagamentos = () => {
               Pagamento #{pagamento.id}
             </h3>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              <p>Corporação ID: {pagamento.corporacaoId}</p>
-              <p>Usuário ID: {pagamento.userId}</p>
+              <p>Corporação ID: {pagamento.corporacao_id}</p>
+              <p>Usuário ID: {pagamento.user_id}</p>
               <p className="text-lg font-bold text-green-600">R$ {(pagamento.quantia || 0).toFixed(2)}</p>
               <p>Status: <span className={`font-semibold ${pagamento.status === 'APROVADO' ? 'text-green-600' : pagamento.status === 'PENDENTE' ? 'text-yellow-600' : 'text-red-600'}`}>{pagamento.status}</span></p>
-              {pagamento.dataPagamento && (
-                <p>Data: {new Date(pagamento.dataPagamento).toLocaleDateString()}</p>
+              {pagamento.dt_criacao && (
+                <p>Data: {new Date(pagamento.dt_criacao).toLocaleDateString()}</p>
               )}
             </div>
             {pagamento.id && (

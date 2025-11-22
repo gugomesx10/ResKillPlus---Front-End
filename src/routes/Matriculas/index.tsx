@@ -14,9 +14,8 @@ const Matriculas = () => {
   const [formData, setFormData] = useState<Matricula>({
     cpf_usuario: '',
     nome_curso: '',
-    data_matricula: '',
-    status_matricula: 'ATIVA',
-    progresso_curso: 0,
+    dt_matricula: '',
+    status: 'ATIVA',
   });
 
   useEffect(() => {
@@ -48,16 +47,18 @@ const Matriculas = () => {
     try {
       if (editMode) {
         await matriculaService.atualizar(formData);
+        alert('✅ Matrícula atualizada com sucesso!');
       } else {
         await matriculaService.criar(formData);
+        alert('✅ Matrícula cadastrada com sucesso!');
       }
       setShowForm(false);
       setEditMode(false);
-      setFormData({ cpf_usuario: '', nome_curso: '', data_matricula: '', status_matricula: 'ATIVA', progresso_curso: 0 });
-      carregarMatriculas();
-    } catch (error) {
+      setFormData({ cpf_usuario: '', nome_curso: '', dt_matricula: '', status: 'ATIVA' });
+      await carregarMatriculas();
+    } catch (error: any) {
       console.error('Erro ao salvar matrícula:', error);
-      alert('Erro ao salvar matrícula');
+      alert('❌ ' + (error.message || 'Erro ao salvar matrícula'));
     } finally {
       setLoading(false);
     }
@@ -74,10 +75,11 @@ const Matriculas = () => {
       setLoading(true);
       try {
         await matriculaService.excluir(cpfUsuario, nomeCurso);
-        carregarMatriculas();
-      } catch (error) {
+        await carregarMatriculas();
+        alert('✅ Matrícula excluída com sucesso!');
+      } catch (error: any) {
         console.error('Erro ao excluir matrícula:', error);
-        alert('Erro ao excluir matrícula');
+        alert('❌ ' + (error.message || 'Erro ao excluir matrícula'));
       } finally {
         setLoading(false);
       }
@@ -92,7 +94,7 @@ const Matriculas = () => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Gerenciar Matrículas
         </h1>
-        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', data_matricula: '', status_matricula: 'ATIVA', progresso_curso: 0 }); }}>
+        <Button onClick={() => { setShowForm(!showForm); setEditMode(false); setFormData({ cpf_usuario: '', nome_curso: '', dt_matricula: '', status: 'ATIVA' }); }}>
           {showForm ? 'Cancelar' : 'Nova Matrícula'}
         </Button>
       </div>
@@ -123,8 +125,8 @@ const Matriculas = () => {
             <Input
               label="Data da Matrícula"
               type="date"
-              name="data_matricula"
-              value={formData.data_matricula}
+              name="dt_matricula"
+              value={formData.dt_matricula}
               onChange={handleChange}
               required
             />
@@ -133,8 +135,8 @@ const Matriculas = () => {
                 Status <span className="text-red-500">*</span>
               </label>
               <select
-                name="status_matricula"
-                value={formData.status_matricula}
+                name="status"
+                value={formData.status}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
@@ -144,14 +146,6 @@ const Matriculas = () => {
                 <option value="CANCELADA">Cancelada</option>
               </select>
             </div>
-            <Input
-              label="Progresso (%)"
-              type="number"
-              name="progresso_curso"
-              value={formData.progresso_curso?.toString() || '0'}
-              onChange={handleChange}
-              placeholder="0-100"
-            />
             <Button type="submit">{editMode ? 'Atualizar' : 'Cadastrar'}</Button>
           </form>
         </Card>
@@ -165,9 +159,8 @@ const Matriculas = () => {
             </h3>
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               <p>CPF: {matricula.cpf_usuario}</p>
-              <p>Data: {new Date(matricula.data_matricula).toLocaleDateString()}</p>
-              <p>Status: <span className={`font-semibold ${matricula.status_matricula === 'ATIVA' ? 'text-green-600' : matricula.status_matricula === 'CONCLUIDA' ? 'text-blue-600' : 'text-red-600'}`}>{matricula.status_matricula}</span></p>
-              {matricula.progresso_curso !== undefined && <p>Progresso: {matricula.progresso_curso}%</p>}
+              <p>Data: {new Date(matricula.dt_matricula).toLocaleDateString()}</p>
+              <p>Status: <span className={`font-semibold ${matricula.status === 'ATIVA' ? 'text-green-600' : matricula.status === 'CONCLUIDA' ? 'text-blue-600' : 'text-red-600'}`}>{matricula.status}</span></p>
             </div>
             <div className="flex gap-2">
               <Button onClick={() => handleEdit(matricula)} variant="secondary">
