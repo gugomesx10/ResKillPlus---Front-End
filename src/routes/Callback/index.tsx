@@ -20,7 +20,7 @@ const Callback = () => {
 
         const response = await authService.handleCallback(provider as any, code);
         
-        if (response.accessToken) {
+        if (response && response.accessToken) {
           localStorage.setItem('accessToken', response.accessToken);
           
           if (response.nome && response.email) {
@@ -32,8 +32,17 @@ const Callback = () => {
           }
           
           navigate('/');
+        } else if (response && (response.nome || response.email)) {
+          const tempToken = `oauth-${provider}-${Date.now()}`;
+          localStorage.setItem('accessToken', tempToken);
+          localStorage.setItem('user', JSON.stringify({
+            name: response.nome || response.email,
+            email: response.email,
+            avatar: response.avatarUrl
+          }));
+          navigate('/');
         } else {
-          throw new Error('Token não recebido');
+          throw new Error('Dados de autenticação não recebidos');
         }
       } catch (err: any) {
         console.error('Erro no callback:', err);

@@ -1,7 +1,6 @@
 import api from './api';
 
 const API_BASE_URL = 'https://reskillplus-java.onrender.com';
-const FRONTEND_URL = window.location.origin; // URL do frontend atual
 
 export const authService = {
   loginGitHub: () => {
@@ -17,7 +16,7 @@ export const authService = {
   },
 
   handleCallback: async (provider: 'github' | 'google' | 'microsoft', code: string) => {
-    const redirectUri = `${FRONTEND_URL}/callback/${provider}`;
+    const redirectUri = `https://reskillplus-java.onrender.com/auth/${provider}/callback`;
     return api.post(`/auth/${provider}`, {
       code: code,
       redirectUri: redirectUri
